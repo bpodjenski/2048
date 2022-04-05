@@ -21,8 +21,11 @@ function newGame() {
       //Creates a new <div> per tile, gives each <div> a unique id = "row-col". Ex: id = "1-2"
       let tile = document.createElement("div");
       tile.id = r.toString() + "-" + c.toString();
+
       let num = board[r][c];
       updateTile(tile, num);
+
+      console.log(num);
       //addTile(tile);
       document.getElementById("board").append(tile);
     }
@@ -45,24 +48,40 @@ function updateTile(tile, num) {
 
 
 function addTile() {
-  var a = randomIntFromInterval(0, 3);
-  var b = randomIntFromInterval(0, 3);
+  var openTile = false
 
-  let tile = document.createElement("div");
-  tile.id = a.toString() + "-" + b.toString();
-  let num = board[a][b];
-  tile.innerText = "";
-  tile.classList.value = "";
-  tile.classList.add("tile");
+
+
+  while (!openTile){
+    var a = randomIntFromInterval(0, 3);
+    var b = randomIntFromInterval(0, 3);
+
+    if (board[a][b] == 0){
+      openTile = true;
+    }
+  }
+
+  var ran = randomIntFromInterval(0, 1);
+
 
 
   console.log("%d, %d", a, b);
-  console.log(num.toString());
+  //console.log(num);
 
-  if (num > 0) {
-    tile.innerText = num;
-    //Gets the tile color based on tile number: t2, t4, t128, etc
-    tile.classList.add("t" + num.toString());
+  if (board[a][b] == 0) {
+    let tile = document.getElementById(a.toString() + "-" + b.toString());
+    console.log("making a new tile");
+    if (ran == 0){
+      tile.innerText = "2";
+      tile.classList.add("t2");
+      board[a][b] = 2;
+    }
+    if (ran == 1){
+      tile.innerText = "4";
+      tile.classList.add("t4");
+      board[a][b] = 4;
+    }
+
   }
 
   //upateTile(tile, num);
@@ -141,7 +160,6 @@ function shiftRight() {
 [0]
 [0]  -> [2 0 0 2]
 [2]
-
 Perform moveRow() and then insert back in the order of a column
 */
 function shiftUp() {
